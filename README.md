@@ -31,17 +31,6 @@ Sesiones y seguridad
 
 Arquitectura multicontenedor
 
-🧱 Estructura del proyecto
-login_app/
- ├── app.js
- ├── package.json
- ├── Dockerfile
- ├── docker-compose.yml
- ├── init.sql
- ├── public/
- │    ├── login.html
- │    ├── register.html
- │    └── dashboard.html
 
 ⚙️ Tecnologías utilizadas
 Componente	Tecnología
@@ -72,6 +61,7 @@ Esto creará:
 
 📦 3. Servicios expuestos
 Servicio	URL
+
 Aplicación Web	http://localhost:3000
 
 Login	http://localhost:3000/login.html
