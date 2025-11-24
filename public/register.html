@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Register</title></head>
+<body>
+  <h2>Registro</h2>
+  <form id="form">
+    <label>Usuario: <input name="username" required minlength="3"></label><br>
+    <label>Contraseña: <input name="password" type="password" required minlength="6"></label><br>
+    <button>Registrar</button>
+  </form>
+  <div id="msg"></div>
+  <script>
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const res = await fetch('/api/register', { method: 'POST', body: new URLSearchParams(fd) });
+      const txt = await res.text();
+      document.getElementById('msg').innerText = txt;
+    });
+  </script>
+</body>
+</html>

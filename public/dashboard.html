@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Dashboard</title></head>
+<body>
+<h2>Dashboard</h2>
+<div id="info"></div>
+<form id="msgform">
+<input name="text" placeholder="Mensaje..." required>
+<button>Enviar</button>
+</form>
+<div id="messages"></div>
+<button id="logout">Logout</button>
+<script>
+async function load() {
+const res = await fetch('/api/profile');
+if (res.status === 401) return window.location = '/login.html';
+const profile = await res.json();
+document.getElementById('info').innerText = 'Conectado como: ' +
+profile.user.username + ' (role: ' + profile.role + ')';
+const msgs = await fetch('/api/messages');
+const list = await msgs.json();
+document.getElementById('messages').innerHTML = list.map(m =>
+'<p>'+m.texto+' <em>'+m.created_at+'</em></p>').join('');
+}
+document.getElementById('msgform').addEventListener('submit', async (e)
+=> {
+e.preventDefault();
+const fd = new FormData(e.target);
+const res = await fetch('/api/message', { method: 'POST', body: new
+URLSearchParams(fd) });
+if (res.ok) {
+e.target.reset();
+load();
+}
+});
+document.getElementById('logout').addEventListener('click', async () => {
+await fetch('/api/logout', { method: 'POST' });
+window.location = '/';
+});
+load();
+</script>
+</body>
+</html>
