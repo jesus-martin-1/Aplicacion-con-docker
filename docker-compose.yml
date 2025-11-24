@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: testuser
+      DB_PASSWORD: testpass
+      DB_NAME: testdb
+      SESSION_SECRET: "cambia_esta_clave_en_produccion"
+    volumes:
+      - ./public:/app/public
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
